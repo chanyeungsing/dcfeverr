@@ -1,7 +1,18 @@
-echo "# dcfeverr" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M master
-git remote add origin https://github.com/chanyeungsing/dcfeverr.git
-git push -u origin master
+
+# How to create translation
+Run following commands
+```
+cd app/
+mkdir translations
+pybabel extract -F babel.cfg -k lazy_gettext -o translations/messages.pot .
+pybabel init -i translations/messages.pot -d translations -l en
+pybabel init -i translations/messages.pot -d translations -l es
+pybabel init -i translations/messages.pot -d translations -l zh
+pybabel compile -d translations
+```
+
+# How to update translation
+```
+cd app/
+pybabel update -i translations/messages.pot -d translations
+```# defever
