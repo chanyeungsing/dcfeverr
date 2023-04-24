@@ -116,6 +116,7 @@ class TradingList(db.Model):
 class TradingItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
+    description = db.Column(db.String(1000))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     price=db.Column(db.Integer)
     post_time = db.Column(db.DateTime, default=datetime.utcnow)
