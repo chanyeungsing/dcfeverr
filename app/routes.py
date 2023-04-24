@@ -200,3 +200,7 @@ def create_news_post():
             session.commit()
         return redirect(url_for("display_post", title=title))
     return render_template("news.html.j2")
+
+@app.route("/dcfever_logo_v2_png.png")
+def image():
+    return render_template("dcfever_logo_v2_png.png")
