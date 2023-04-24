@@ -125,3 +125,27 @@ class TradingItem(db.Model):
     
     def __repr__(self):
         return f"TradingItem(id={self.id}),name'{self.name}'"
+
+class TradingRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    requester_id = db.Column(db.Integer,db.ForeignKey('User.id'),nullable=False)
+    content = db.Column(db.String(500),nullable=False)
+
+class Camera(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    brand = db.Column(db.String(50))
+    model = db.Column(db.String(50))
+    price = db.Column(db.Float)
+    total_score = db.Column(db.Float)
+
+class CameraImages(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    camera_id = db.Column(db.Integer, db.ForeignKey('camera.id'), nullable=False)
+    image_url = db.Column(db.String(200))
+
+class CameraReviews(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    camera_id = db.Column(db.Integer, db.ForeignKey('camera.id'), nullable=False)
+    user_id = db.Column(db.String(50, db.ForeignKey('user.id')),nullable=False)
+    comment = db.Column(db.String(500))
+    rating = db.Column(db.Float)
