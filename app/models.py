@@ -120,15 +120,13 @@ class TradingItem(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     price=db.Column(db.Integer)
     post_time = db.Column(db.DateTime, default=datetime.utcnow)
-    tradinglist_id=db.Column(db.Integer, db.ForeignKey('TradingList.id'))
-    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
     
     def __repr__(self):
         return f"TradingItem(id={self.id}),name'{self.name}'"
 
 class TradingRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    requester_id = db.Column(db.Integer,db.ForeignKey('User.id'),nullable=False)
+    requester_id = db.Column(db.Integer,db.ForeignKey('user.id'))
     content = db.Column(db.String(500),nullable=False)
 
 class Camera(db.Model):
@@ -145,7 +143,7 @@ class CameraImages(db.Model):
 
 class CameraReviews(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    camera_id = db.Column(db.Integer, db.ForeignKey('camera.id'), nullable=False)
-    user_id = db.Column(db.String(50, db.ForeignKey('user.id')),nullable=False)
+    camera_id = db.Column(db.Integer, db.ForeignKey('camera.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     comment = db.Column(db.String(500))
     rating = db.Column(db.Float)
