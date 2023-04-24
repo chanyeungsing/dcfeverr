@@ -190,16 +190,13 @@ def unfollow(username):
     flash(_('You are not following %(username)s.', username=username))
     return redirect(url_for('user', username=username))
 
-@app.route('/news/', methods=["GET, POST"])
-def create_news_post():
+@app.route('/news', methods=["GET", "POST"])
+def news():
     if request.method == "POST":
         title = request.form.get("title")
         content = request.form.get("content")
-        with Session(current_app.engine) as session:
-            session.add(Post(title=title, content=content))
-            session.commit()
-        return redirect(url_for("display_post", title=title))
-    return render_template("news.html.j2")
+        return redirect(url_for(".display_post", title=title))
+    return render_template('news.html.j2')
 
 @app.route("/dcfever_logo_v2_png.png")
 def image():
