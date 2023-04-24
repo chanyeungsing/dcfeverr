@@ -1,4 +1,3 @@
-
 from datetime import datetime, timedelta, timezone
 from hashlib import md5
 from app import app, db, login
@@ -29,6 +28,8 @@ class User(UserMixin, db.Model):
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+    tradingitem = db.relationship(
+        'TradingItem', backref=db.backref("user", lazy=True))
 
     def __repr__(self) -> str:
         return f'<User {self.username}>'
@@ -72,7 +73,7 @@ class User(UserMixin, db.Model):
         try:
             id = jwt.decode(token, app.config["SECRET_KEY"], algorithms="HS256")[
                 "reset_password"]
-        except:           
+        except:
             return None
         return User.query.get(id)
 
@@ -90,3 +91,36 @@ class Post(db.Model):
 
     def __repr__(self) -> str:
         return f'<Post {self.body}>'
+
+
+##########################################
+class News(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100))
+    content = db.Column(db.String(5000))
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    newstype = db.relationship(
+        'NewsType', backref=db.backref('posts', lazy=True))
+
+class NewsType(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(10))
+
+class TradingList(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(10))
+
+    def __repr__(self):
+        return f"TradingList(name={self.name})"
+    
+class TradingItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    price=db.Column(db.Integer)
+    post_time = db.Column(db.DateTime, default=datetime.utcnow)
+    tradinglist_id=db.Column(db.Integer, db.ForeignKey('TradingList.id'))
+    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+    
+    def __repr__(self):
+        return f"TradingItem(id={self.id}),name'{self.name}'"
