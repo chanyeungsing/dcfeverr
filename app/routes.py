@@ -6,7 +6,7 @@ from flask_babel import _, get_locale
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm, \
     ResetPasswordRequestForm, ResetPasswordForm
-from app.models import User, Post
+from app.models import User, Post, News
 from app.email import send_password_reset_email
 
 
@@ -190,8 +190,20 @@ def unfollow(username):
     flash(_('You are not following %(username)s.', username=username))
     return redirect(url_for('user', username=username))
 
-@app.route('/news', methods=["GET", "POST"])
+@app.route('/news')
 def news():
+    page = request.args.get('page', 1, type=int)
+    news = News.query.filter_by().paginate(
+        page=page, per_page=app.config["POSTS_PER_PAGE"], error_out=False)
+    next_url = url_for(
+        'index', page=news.next_num) if news.next_num else None
+    prev_url = url_for(
+        'index', page=news.prev_num) if news.prev_num else None
+    return render_template('news.html.j2', title=_('News'))
+
+
+
+
     if request.method == "POST":
         title = request.form.get("title")
         content = request.form.get("content")
