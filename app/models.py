@@ -98,9 +98,10 @@ class News(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     content = db.Column(db.String(5000))
-    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    time = db.Column(db.DateTime, default=datetime.utcnow)
     newstype = db.relationship(
         'NewsType', backref=db.backref('posts', lazy=True))
+    imgurl = db.Column(db.String(500))
 
 class NewsType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
