@@ -99,6 +99,7 @@ class News(db.Model):
     title = db.Column(db.String(100))
     content = db.Column(db.String(5000))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    imgurl = db.Column(db.String(1000))
     #newstype = db.relationship(
      #   'NewsType', backref=db.backref('news'))
 
@@ -131,10 +132,11 @@ class TradingRequest(db.Model):
 
 class Camera(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    brand = db.Column(db.String(50))
     model = db.Column(db.String(50))
+    brand = db.Column(db.String(50))
     price = db.Column(db.Float)
     total_score = db.Column(db.Float)
+    imgurl = db.Column(db.String(1000))
 
 class CameraImages(db.Model):
     id = db.Column(db.Integer, primary_key=True)

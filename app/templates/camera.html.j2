@@ -1,13 +1,13 @@
 {% extends "base.html.j2" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block app_content %}
-    <h1>新聞中心</h1>
+    <h1>{{ _('Hi, %(username)s!', username=current_user.username) }}</h1>
     {% if form %}
         {{ wtf.quick_form(form) }}
         <br/>
     {% endif %}
-    {% for news in newses %}
-        {% include "_news.html.j2" %}
+    {% for camera in cameras %}
+        {% include "_camera.html.j2" %}
     {% endfor %}
     <nav aria-label="...">
         <ul class="pager">

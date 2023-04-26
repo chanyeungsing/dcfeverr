@@ -6,7 +6,7 @@ from flask_babel import _, get_locale
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm, \
     ResetPasswordRequestForm, ResetPasswordForm
-from app.models import User, Post, News
+from app.models import User, Post, News, Camera
 from app.email import send_password_reset_email
 
 
@@ -204,3 +204,15 @@ def news():
 @app.route("/dcfever_logo_v2_png.png")
 def image():
     return render_template("dcfever_logo_v2_png.png")
+
+@app.route("/camera")
+def camera():
+    page = request.args.get('page', 1, type=int)
+    cameras = Camera.query.filter_by().paginate(
+        page=page, per_page=app.config["POSTS_PER_PAGE"], error_out=False)
+    next_url = url_for(
+        'index', page=cameras.next_num) if cameras.next_num else None
+    prev_url = url_for(
+        'index', page=cameras.prev_num) if cameras.prev_num else None
+
+    return render_template('camera.html.j2', title=_('Camera'),cameras=cameras.items)
