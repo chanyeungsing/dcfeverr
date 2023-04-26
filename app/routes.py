@@ -193,13 +193,13 @@ def unfollow(username):
 @app.route('/news')
 def news():
     page = request.args.get('page', 1, type=int)
-    news = News.query.filter_by().paginate(
+    newses = News.query.filter_by().paginate(
         page=page, per_page=app.config["POSTS_PER_PAGE"], error_out=False)
     next_url = url_for(
-        'index', page=news.next_num) if news.next_num else None
+        'index', page=newses.next_num) if newses.next_num else None
     prev_url = url_for(
-        'index', page=news.prev_num) if news.prev_num else None
-    return render_template('news.html.j2', title=_('News'))
+        'index', page=newses.prev_num) if newses.prev_num else None
+    return render_template('news.html.j2', title=_('News'),newses=newses.items)
 
 
 
