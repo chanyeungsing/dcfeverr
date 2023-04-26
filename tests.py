@@ -4,7 +4,7 @@ os.environ['DATABASE_URL'] = 'sqlite://'
 from datetime import datetime, timedelta
 import unittest
 from app import app, db
-from app.models import User, Post
+from app.models import User, Post, News, NewsType
 
 class UserModelCase(unittest.TestCase):
     def setUp(self):
@@ -89,6 +89,9 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(f2, [p2, p3])
         self.assertEqual(f3, [p3, p4])
         self.assertEqual(f4, [p4])
+
+class NewsModelCase(unittest.TestCase):
+    def()
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
