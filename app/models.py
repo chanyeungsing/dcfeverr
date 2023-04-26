@@ -99,8 +99,8 @@ class News(db.Model):
     title = db.Column(db.String(100))
     content = db.Column(db.String(5000))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
-    newstype = db.relationship(
-        'NewsType', backref=db.backref('posts', lazy=True))
+    #newstype = db.relationship(
+     #   'NewsType', backref=db.backref('news'))
 
 class NewsType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
