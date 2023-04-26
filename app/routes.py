@@ -195,7 +195,7 @@ def news():
     if request.method == "POST":
         title = request.form.get("title")
         content = request.form.get("content")
-        return redirect(url_for(".display_post", title=title))
+        return redirect(url_for("new.html.j2", title=title))
     return render_template('news.html.j2')
 
 @app.route("/dcfever_logo_v2_png.png")
