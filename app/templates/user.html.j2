@@ -45,8 +45,8 @@
             </li>
         </ul>
     </nav>
-    {% endfor %}
-        {% include 'news.html.j2' %}
+    {% for new in news %}
+        {% include '_news.html.j2' %}
     {% endfor %}
     <nav aria-label="...">
         <ul class="pager">
