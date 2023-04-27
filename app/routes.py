@@ -250,15 +250,16 @@ def tradingitem(id):
 @app.route('/addproduct', methods=['GET','POST'])
 @login_required
 def addproduct():
-    form = AddproductsForm(request.form)
+    form = AddproductsForm(user_id=current_user.id)
     if form.validate_on_submit():
-        post = TradingItem(name = form.name.data,
-            condition = form.condition.data,
-            discription = form.discription.data,
+        post = TradingItem(
+            name = form.name.data,
+            description = form.description.data,
             price = form.price.data,
-            type = form.type.data
+            type_id = int(form.type.data),
+            user_id=form.user_id.data,
         )
         db.session.add(post)
         db.session.commit()
         flash(_('Success!'))
-    return render_template('Trading/index.html.j2')
+    return render_template('addproduct.html.j2',form=form)

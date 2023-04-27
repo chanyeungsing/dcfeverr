@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, \
-    TextAreaField, RadioField, FloatField, SelectField
+    TextAreaField, FloatField, SelectField, HiddenField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, \
     Length
 from flask_babel import _, lazy_gettext as _l
@@ -73,11 +73,10 @@ class PostForm(FlaskForm):
 class AddproductsForm(FlaskForm):
 
     name = StringField(_l('物品名稱'), validators=[DataRequired()])
-    condition = RadioField(('物品狀況'), choices=[('secondhand','二手'),('newproduct','新品')])
-    discription = TextAreaField('物品描述', validators=[DataRequired()])
+    description = StringField('物品描述', validators=[DataRequired()])
     price = FloatField(_l('價錢'), validators=[DataRequired()])
     type = SelectField('分類', choices=[
-        ('photography','攝影產品'),('computer','電腦'),('mobile','手機通訊'),
-        ('audio-visual','影音產品'),('game console','遊戲機'),('Electrical furniture','電器傢俱'),('other','其他')]
+        ('1','攝影產品'),('2','電腦'),('3','手機通訊'),('4','影音產品'),('5','遊戲機'),('6','電器傢俱'),('7','其他')]
         )
+    user_id = HiddenField()
     submit = SubmitField(_l('提交'))
