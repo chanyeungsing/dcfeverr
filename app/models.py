@@ -28,8 +28,6 @@ class User(UserMixin, db.Model):
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
-    tradingitem = db.relationship(
-        'TradingItem', backref=db.backref("user", lazy=True))
 
     def __repr__(self) -> str:
         return f'<User {self.username}>'
@@ -108,20 +106,23 @@ class NewsType(db.Model):
     name = db.Column(db.String(10))
 
 class TradingType(db.Model):
+    __tablename__ = "TradingType"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
-    posts = db.relationship('TradingItem',backref='type',lazy=True)
+    item = db.relationship('TradingItem', backref='type',lazy=True)
 
 class TradingItem(db.Model):
+    __tablename__ = "TradingItem"
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     description = db.Column(db.String(1000))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     price=db.Column(db.Integer)
-    post_time = db.Column(db.DateTime, default=datetime.utcnow)
-    type_id = db.Column(db.Integer, db.ForeignKey('TradingType.id'),nullable=False)
-    
-    
+    time = db.Column(db.DateTime, default=datetime.utcnow)
+    type_id = db.Column(db.Integer, db.ForeignKey('TradingType.id'))
+    imgurl = db.Column(db.String(1000))
+
 
 class TradingRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
