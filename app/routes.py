@@ -5,8 +5,8 @@ from werkzeug.urls import url_parse
 from flask_babel import _, get_locale
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm, \
-    ResetPasswordRequestForm, ResetPasswordForm
-from app.models import User, Post, News, Camera
+    ResetPasswordRequestForm, ResetPasswordForm, AddproductsForm
+from app.models import User, Post, News, Camera, TradingItem
 from app.email import send_password_reset_email
 
 
@@ -216,3 +216,33 @@ def camera():
         'index', page=cameras.prev_num) if cameras.prev_num else None
 
     return render_template('camera.html.j2', title=_('Camera'),cameras=cameras.items)
+
+@app.route("/Trading/index")
+def tradingindex():
+    page = request.args.get('page',1,type=int)
+    posts = TradingItem.query.filter_by().paginate(
+        page=page, per_page=app.config["POSTS_PER_PAGE"], error_out=False)
+    next_url = url_for(
+        'index', page=posts.next_num) if posts.next_num else None
+    prev_url = url_for(
+        'index', page=posts.prev_num) if posts.prev_num else None
+
+    return render_template('Trading/index.html.j2', title=_('二手市集'),posts=posts.items)
+
+@app.route('/addproduct', methods=['GET','POST'])
+
+@login_required
+
+def addproduct():
+    form = AddproductsForm(request.form)
+    if form.validate_on_submit():
+        post = TradingItem(name = form.name.data,
+            condition = form.condition.data,
+            discription = form.discription.data,
+            price = form.price.data,
+            type = form.type.data
+        )
+        db.session.add(post)
+        db.session.commit()
+        flash(_('Success!'))
+    return render_template('Trading/index.html.j2')
