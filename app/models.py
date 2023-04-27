@@ -99,6 +99,7 @@ class News(db.Model):
     title = db.Column(db.String(100))
     content = db.Column(db.String(5000))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    imgurl = db.Column(db.String(1000))
     #newstype = db.relationship(
      #   'NewsType', backref=db.backref('news'))
 
@@ -106,13 +107,11 @@ class NewsType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(10))
 
-class TradingList(db.Model):
+class TradingType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(10))
+    name = db.Column(db.String(50))
+    posts = db.relationship('TradingItem',backref='type',lazy=True)
 
-    def __repr__(self):
-        return f"TradingList(name={self.name})"
-    
 class TradingItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
@@ -120,9 +119,9 @@ class TradingItem(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     price=db.Column(db.Integer)
     post_time = db.Column(db.DateTime, default=datetime.utcnow)
+    type_id = db.Column(db.Integer, db.ForeignKey('TradingType.id'),nullable=False)
     
-    def __repr__(self):
-        return f"TradingItem(id={self.id}),name'{self.name}'"
+    
 
 class TradingRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -131,10 +130,11 @@ class TradingRequest(db.Model):
 
 class Camera(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    brand = db.Column(db.String(50))
     model = db.Column(db.String(50))
+    brand = db.Column(db.String(50))
     price = db.Column(db.Float)
     total_score = db.Column(db.Float)
+    imgurl = db.Column(db.String(1000))
 
 class CameraImages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -147,3 +147,4 @@ class CameraReviews(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     comment = db.Column(db.String(500))
     rating = db.Column(db.Float)
+
