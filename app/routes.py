@@ -217,8 +217,9 @@ def camera():
 
     return render_template('camera.html.j2', title=_('Camera'),cameras=cameras.items)
 
-@app.route("/Trading/index")
-def tradingindex():
+
+@app.route("/trading")
+def trading():
     page = request.args.get('page',1,type=int)
     posts = TradingItem.query.filter_by().paginate(
         page=page, per_page=app.config["POSTS_PER_PAGE"], error_out=False)
@@ -227,12 +228,27 @@ def tradingindex():
     prev_url = url_for(
         'index', page=posts.prev_num) if posts.prev_num else None
 
-    return render_template('Trading/index.html.j2', title=_('二手市集'),posts=posts.items)
+    return render_template('trading.html.j2', title=_('二手市集'),posts=posts.items)
+
+
+@app.route("/tradingitem/<id>")
+def tradingitem(id):
+    post = TradingItem.query.filter_by(id=id).first()
+    if post is None:
+        flash(_("The item id is wrong."))
+    if post is not None:
+        return render_template('')
+        
+
+
+
+
+
+
+
 
 @app.route('/addproduct', methods=['GET','POST'])
-
 @login_required
-
 def addproduct():
     form = AddproductsForm(request.form)
     if form.validate_on_submit():
