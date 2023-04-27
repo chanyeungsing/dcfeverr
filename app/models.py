@@ -106,13 +106,14 @@ class NewsType(db.Model):
     name = db.Column(db.String(10))
 
 class TradingType(db.Model):
-    __tablename__ = "TradingType"
+    __tablename__ = 'tradingtype'
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     item = db.relationship('TradingItem', backref='type',lazy=True)
 
 class TradingItem(db.Model):
-    __tablename__ = "TradingItem"
+    __tablename__ = 'tradingitem'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
@@ -120,7 +121,7 @@ class TradingItem(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     price=db.Column(db.Integer)
     time = db.Column(db.DateTime, default=datetime.utcnow)
-    type_id = db.Column(db.Integer, db.ForeignKey('TradingType.id'))
+    type_id = db.Column(db.Integer, db.ForeignKey('tradingtype.id'))
     imgurl = db.Column(db.String(1000))
 
 

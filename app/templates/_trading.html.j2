@@ -1,0 +1,18 @@
+<table class="table table-hover">
+    <tr>
+        <td width="70px">
+            <a href="{{ url_for('tradingitem', id=post.id) }}">
+                <img src="{{ post.imgurl }}" width=150/>
+            </a>
+        </td>
+        <td>
+            {% set user_link %}
+            <a href="{{ url_for('tradingitem', id=post.id) }}">{{ post.name }}
+        {% endset %}
+        {{ _('%(itemname)s %(when)s',itemname=post.name, when=moment(post.time).fromNow()) }}
+            <br/>
+        {{ post.price }}
+            </a>
+        </td>
+    </tr>
+</table>

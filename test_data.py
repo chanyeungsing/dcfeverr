@@ -1,5 +1,5 @@
 from app import db, app
-from app.models import User, Post, News, Camera
+from app.models import User, Post, News, Camera, TradingItem, TradingType
 
 
 app_context = app.app_context()
@@ -30,5 +30,15 @@ camera1 = Camera(brand="Fujifilm", model="Fujifilm X100V",price=10999,total_scor
 camera2 = Camera(brand="Canon", model="Canon EOS R8",price=1380,total_score=5,imgurl="https://cdn09.dcfever.com/media/cameras//images/2023/02/canon_2441_1675844868.jpg")
 db.session.add(camera1)
 db.session.add(camera2)
+
+type1 = TradingType(name="文具")
+type2 = TradingType(name="其他")
+db.session.add(type1)
+db.session.add(type2)
+
+item1 = TradingItem(name="pen",description="100% new",user_id="1",price=100,imgurl="https://www.montblanc.com/variants/images/34480784411808558/A/w2500.jpg")
+item2 = TradingItem(name="Eraser",description="99% new",user_id="2",price=100,imgurl="https://m.media-amazon.com/images/I/51vAN6zX72L._SY355_.jpg")
+db.session.add(item1)
+db.session.add(item2)
 
 db.session.commit()
